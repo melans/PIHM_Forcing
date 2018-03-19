@@ -35,7 +35,7 @@ y2="1954";	# 2103840 - minutes
 # you may -CAREFULLY- change the following parameter
 ################################################################################
 # given that the VIC grids are as follows:
-#		wb_Y_X :
+#	wb_Y_X :
 # 		col 1,2,3 = yr,m,d
 # 		col 4,5,9,10 = TEMP,PREP,WIND,RH
 # 	eb_Y_X :
