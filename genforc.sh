@@ -99,7 +99,7 @@ for fld in "${!forc_flds[@]}"; do
 	# create the field txt empty file
 	echo -n>$txt/$f.txt;
 	# display the detailed message about the current file creation
-	echo -n "composing $txt/$f.txt from column (\$$col$ff) in $src grids ";
+	echo -n "composing $txt/$f.txt from column ((\$$col)$ff) in $src grids ";
 	# loop through series
 	for (( ser=0;ser++<$series; ));do
 		# # display the name of the current file
