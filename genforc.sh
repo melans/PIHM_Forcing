@@ -1,8 +1,8 @@
 #!/bin/bash
 
 ################################################################################
-# Bash script to generate forcing file from VIC grids - V.18.03.16
-# modified Aug 31st, 2018 - V.18.08.31
+# Bash script to generate forcing file from VIC grids - V.20.01.15
+# modified Jan 15th, 2020 - V.20.01.15
 ################################################################################
 # created Mar 16, 2018 by anssary@gmail.com under supervision of tusharsinha.iitd@gmail.com
 # the script requires a TINs & Grids mapping file that contains the TIN ID, the Grids ID, and the Grid's _Y_X
@@ -14,16 +14,16 @@
 # 5 197 _28.4375_-98.6875
 # Usage :
 	# 1) copy the script inside a folder (ex. TEST/genforc.sh)
-	# 2) copy the necessary file (TINs_GRIDs) inside the same folder
+	# 2) copy the necessary file (TINs_Grids) inside the same folder
 	# 3) copy the VIC grids inside a sub-folder (ex. TEST/grids/wb_27.8125_-97.4375)
 	# 4) cd to the folder (cd TEST)
 	# 5) run the script (./genforc.sh)
 # change the following variable names as desired
 # TINs and Grids mapping file
 
-read -p "TINs_GRIDs: " TINs_GRIDs
-TINs_GRIDs=${TINs_GRIDs:-TINs_GRIDs}
-#TINs_GRIDs="$TINs_GRIDs.TG";
+read -p "TINs_Grids: " TINs_Grids
+TINs_Grids=${TINs_Grids:-TINs_Grids}
+#TINs_Grids="$TINs_Grids.TG";
 # grids folder name
 read -p "grids: " grids
 grids=${grids:-grids}
@@ -42,7 +42,7 @@ read -p "y2: 1980" y2
 y2=${y2:-1980}
 #y2="1954";	# 2103840 - minutes
 # generated forcing file name
-forc="$TINs_GRIDs""_$y1""_$y2"".forc";
+forc="$TINs_Grids""_$y1""_$y2"".forc";
 ################################################################################
 # you may -CAREFULLY- change the following parameter
 ################################################################################
@@ -86,12 +86,32 @@ WindF="10";
 #					PLEASE DON'T EDIT AFTER THIS LINE
 ################################################################################
 ################################################################################
+# check if we have all the necessary files
+tst1=(`tr ' ' '\n'<<<"${forc_flds_src[@]}"|sort -u|tr '\n' ' '`)
+tst2=(`awk '!a[$3]++{printf $3" "}' TINs_Grids`)
+missing="";
+
+for t1 in "${!tst1[@]}";do
+	for t2 in "${!tst2[@]}";do
+		f=$grids"/""${tst1[t1]}""${tst2[t2]}";
+		if [ ! -f $f ]; then
+			echo "$f is missing.";
+			missing=1;
+		fi;
+	done;
+done;
+
+if [ $missing ]; then
+	echo "Please get the missing files and try again.";
+	exit;
+fi;
+
 # create txt destination folder if not exist
 mkdir -p $txt;
-# count how many series from the TINs_GRIDs file
-series=`awk 'END{print $1}' $TINs_GRIDs`;
+# count how many series from the TINs_Grids file
+series=`awk 'END{print $1}' $TINs_Grids`;
 # count how many rows, from the 1st
-rows=$grids/wb`awk '{print $3;exit}' $TINs_GRIDs`;
+rows=$grids/wb`awk '{print $3;exit}' $TINs_Grids`;
 # count rows from start year to end year
 rows=`awk '$1>="'$y1'"&&$1<="'$y2'"{r++}END{print r}' $rows`;
 # multiply by 2, the forcing requires doubling the rows
@@ -121,7 +141,7 @@ for fld in "${!forc_flds[@]}"; do
 		# insert the header of each series in the field txt file, and the xtra (for Wind)
 		echo "$f	$ser	$rows""$xtra">>$txt/$f.txt;
 		# get the grid for the current series
-		grid=`awk 'NR=='"$ser"'{print $3}' $TINs_GRIDs`;
+		grid=`awk 'NR=='"$ser"'{print $3}' $TINs_Grids`;
 		# find rows in the years y1, y2 range in the grid
 		# i starts with 0, write each col value twice in separate new lines
 		# multiply or devide by the factor ff, the factor contains the sign (* or /)
