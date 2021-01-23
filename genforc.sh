@@ -1,8 +1,8 @@
 #!/bin/bash
 
 ################################################################################
-# Bash script to generate forcing file from VIC grids - V.20.01.15
-# modified Jan 15th, 2020 - V.20.01.15
+# Bash script to generate forcing file from VIC grids - V.21.01.23
+# modified Jan 23, 2021 - V.21.01.23
 ################################################################################
 # created Mar 16, 2018 by anssary@gmail.com under supervision of tusharsinha.iitd@gmail.com
 # the script requires a TINs & Grids mapping file that contains the TIN ID, the Grids ID, and the Grid's _Y_X
@@ -81,6 +81,8 @@ LAI_RL="1";
 LAIF="0.0002";
 # Height of wind velocity observation
 WindF="10";
+# epsilon
+epsilon=0.00001
 ################################################################################
 ################################################################################
 #					PLEASE DON'T EDIT AFTER THIS LINE
@@ -146,7 +148,7 @@ for fld in "${!forc_flds[@]}"; do
 		# i starts with 0, write each col value twice in separate new lines
 		# multiply or devide by the factor ff, the factor contains the sign (* or /)
 		# write the results to the field txt file
-		awk '$1>="'$y1'" && $1<="'$y2'"{printf "%.4f\t%.6f\n%.4f\t%.6f\n",i++,($'$col')'$ff',i,($'$col')'$ff' >> "'$txt'/'$f'.txt"}' $grids/$src$grid;
+		awk '$1>="'$y1'" && $1<="'$y2'"{printf "%.4f\t%.6f\n%.4f\t%.6f\n",i++,($'$col')'$ff',i-'$epsilon',($'$col')'$ff' >> "'$txt'/'$f'.txt"}' $grids/$src$grid;
 		# remove the 1st underscore, and replace the 2nd with comma in the grid
 		xy=${grid/_/};
 		xy=${xy/_/,};
