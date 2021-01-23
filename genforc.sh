@@ -33,12 +33,12 @@ read -p "txt: " txt
 txt=${txt:-txt}
 #txt="txt";
 # From year
-read -p "y1: 1950" y1
+read -p "y1: 1950 (accept or enter): " y1
 y1=${y1:-1950}
 #y1="1950";	# 0 - minutes
 # y1="1951";	# 525600 - minutes
 # To year
-read -p "y2: 1980" y2
+read -p "y2: 1980 (accept or enter): " y2
 y2=${y2:-1980}
 #y2="1954";	# 2103840 - minutes
 # generated forcing file name
@@ -75,14 +75,14 @@ forc_flds_fct=(${forc_flds_fct//,/ });
 # ex. LAI_RL="7,3,10" or LAI_RL="8"
 # leave blank to use all layers (1 - 13)
 # LAI_RL="6,9,7";
-LAI_RL="1";
+LAI_RL="";
 ################################################################################
 # LAI Interception Storage Factor
 LAIF="0.0002";
 # Height of wind velocity observation
 WindF="10";
 # epsilon
-epsilon=0.00001
+epsilon="0.00001";
 ################################################################################
 ################################################################################
 #					PLEASE DON'T EDIT AFTER THIS LINE
@@ -148,7 +148,7 @@ for fld in "${!forc_flds[@]}"; do
 		# i starts with 0, write each col value twice in separate new lines
 		# multiply or devide by the factor ff, the factor contains the sign (* or /)
 		# write the results to the field txt file
-		awk '$1>="'$y1'" && $1<="'$y2'"{printf "%.4f\t%.6f\n%.4f\t%.6f\n",i++,($'$col')'$ff',i-'$epsilon',($'$col')'$ff' >> "'$txt'/'$f'.txt"}' $grids/$src$grid;
+		awk '$1>="'$y1'" && $1<="'$y2'"{printf "%.6f\t%.6f\n%.6f\t%.6f\n",i++,($'$col')'$ff',i-'$epsilon',($'$col')'$ff' >> "'$txt'/'$f'.txt"}' $grids/$src$grid;
 		# remove the 1st underscore, and replace the 2nd with comma in the grid
 		xy=${grid/_/};
 		xy=${xy/_/,};
