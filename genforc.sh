@@ -65,7 +65,7 @@ forc_flds_col=(${forc_flds_col//,/ });
 # fields required in the forcing file (in respective order)
 # forc_flds="Prep,Temp,RH,Wind,Rn,VP,LAI,DH,MF,SS"
 # forc_flds="Prep,Temp,RH,Wind,Rn,VP,LAI,RL,MF,SS"
-forc_flds="Prep,Temp,RH,Wind,Rn,VP";
+forc_flds="PP,TT,RH,WD,RN,VP";
 forc_flds=(${forc_flds//,/ });
 # forcing fields factors, respectively
 forc_flds_fct="/1,*1,/100,*86400,*86400,*1000";
@@ -78,9 +78,9 @@ forc_flds_fct=(${forc_flds_fct//,/ });
 LAI_RL="";
 ################################################################################
 # LAI Interception Storage Factor
-LAIF="0.0002";
+LAIf="0.0002";
 # Height of wind velocity observation
-WindF="10";
+WNf="10";
 # epsilon
 epsilon="0.00001";
 ################################################################################
@@ -131,7 +131,7 @@ for fld in "${!forc_flds[@]}"; do
 	# field factor
 	ff="${forc_flds_fct[$fld]}";
 	# xtra = add the Height of wind velocity observation
-	if [[ "$f" = "Wind" ]];then xtra="	"$WindF;else xtra="";fi
+	if [[ "$f" = "WN" ]];then xtra="	"$WNf;else xtra="";fi
 	# create the field txt empty file
 	echo -n>$txt/$f.txt;
 	# display the detailed message about the current file creation
@@ -192,7 +192,7 @@ echo -n>$txt/LAI.txt;
 # loop through lai series
 for lai in "${!LAI_RL[@]}"; do
 	# insert LAI headers
-	echo "LAI	$((lai+1))	$((yrs*12*2))	$LAIF">>$txt/LAI.txt;
+	echo "LAI	$((lai+1))	$((yrs*12*2))	$LAIf">>$txt/LAI.txt;
 	lais="`_getVarRow LAI ${LAI_RL[$lai]}`";
 	# insert LAI series lines
 	# Create the LAI series from the daysSum series and seriesLAIs
