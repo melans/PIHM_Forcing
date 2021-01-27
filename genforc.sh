@@ -1,8 +1,8 @@
 #!/bin/bash
 
 ################################################################################
-# Bash script to generate forcing file from VIC grids - V.21.01.23
-# modified Jan 23, 2021 - V.21.01.23
+# Bash script to generate forcing file from VIC grids - V.21.01.26
+# modified Jan 26, 2021 - V.21.01.26
 ################################################################################
 # created Mar 16, 2018 by anssary@gmail.com under supervision of tusharsinha.iitd@gmail.com
 # the script requires a TINs & Grids mapping file that contains the TIN ID, the Grids ID, and the Grid's _Y_X
@@ -68,7 +68,7 @@ forc_flds_col=(${forc_flds_col//,/ });
 forc_flds="Prep,Temp,RH,Wind,Rn,VP";
 forc_flds=(${forc_flds//,/ });
 # forcing fields factors, respectively
-forc_flds_fct="/1000,*1,/100,*86400,*86400,*1000";
+forc_flds_fct="/1,*1,/100,*86400,*86400,*1000";
 forc_flds_fct=(${forc_flds_fct//,/ });
 ################################################################################
 # LAI and RL series from this reference (https://ldas.gsfc.nasa.gov/nldas/web/web.veg.monthly.table.xls)
