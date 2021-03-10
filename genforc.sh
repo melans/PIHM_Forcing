@@ -1,8 +1,8 @@
 #!/bin/bash
 
 ################################################################################
-# Bash script to generate forcing file from VIC grids - V.21.01.26
-# modified Jan 26, 2021 - V.21.01.26
+# Bash script to generate forcing file from VIC grids - V.21.03.10
+# modified Mar 10, 2021 - V.21.03.10
 ################################################################################
 # created Mar 16, 2018 by anssary@gmail.com under supervision of tusharsinha.iitd@gmail.com
 # the script requires a TINs & Grids mapping file that contains the TIN ID, the Grids ID, and the Grid's _Y_X
@@ -68,7 +68,7 @@ forc_flds_col=(${forc_flds_col//,/ });
 forc_flds="PP,TT,RH,WD,RN,VP";
 forc_flds=(${forc_flds//,/ });
 # forcing fields factors, respectively
-forc_flds_fct="/1,*1,/100,*86400,*86400,*1000";
+forc_flds_fct="/1000,*1,/100,*86400,*86400,*1000";
 forc_flds_fct=(${forc_flds_fct//,/ });
 ################################################################################
 # LAI and RL series from this reference (https://ldas.gsfc.nasa.gov/nldas/web/web.veg.monthly.table.xls)
@@ -90,7 +90,7 @@ epsilon="0.00001";
 ################################################################################
 # check if we have all the necessary files
 tst1=(`tr ' ' '\n'<<<"${forc_flds_src[@]}"|sort -u|tr '\n' ' '`)
-tst2=(`awk '!a[$3]++{printf $3" "}' TINs_Grids`)
+tst2=(`awk '!a[$3]++{printf $3" "}' $TINs_Grids`)
 missing="";
 
 for t1 in "${!tst1[@]}";do
