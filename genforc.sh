@@ -68,7 +68,7 @@ forc_flds_col=(${forc_flds_col//,/ });
 forc_flds="PP,TT,RH,WD,RN,VP";
 forc_flds=(${forc_flds//,/ });
 # forcing fields factors, respectively
-forc_flds_fct="/1000,*1,/100,*86400,*86400,*1000";
+forc_flds_fct="/1,*1,/100,*86400,*86400,*1000";
 forc_flds_fct=(${forc_flds_fct//,/ });
 ################################################################################
 # LAI and RL series from this reference (https://ldas.gsfc.nasa.gov/nldas/web/web.veg.monthly.table.xls)
