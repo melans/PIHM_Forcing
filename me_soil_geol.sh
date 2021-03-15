@@ -20,9 +20,9 @@ exit;
 options(warn=-1);
 m <- read.csv(commandArgs(TRUE)[1], header = TRUE, sep=' ');
 #34 TextureFileTextStream >> TextureData[NumClasses][1]; //SILT
-S <- m[,2];
+S <- if(m[,2]<=0)0.001 else m[,2];
 #35 TextureFileTextStream >> TextureData[NumClasses][2]; //CLAY
-C <- m[,3];
+C <- if(m[,2]<=0)0.0748 else m[,3];
 #36 TextureFileTextStream >> TextureData[NumClasses][3]; if(TextureData[NumClasses][3]<0) TextureData[NumClasses][3]=2.5; //ORGANIC MATTER
 O <- if(m[,4]<=0)2.5 else m[,4];
 #37 TextureFileTextStream >> TextureData[NumClasses][4]; if(TextureData[NumClasses][4]<0) TextureData[NumClasses][4]=1.3; //BULK DENSITY (g/cm3)
@@ -85,9 +85,9 @@ cat(sprintf("%s\t%.8f\t%.8f\t%.2f\t%.2f\t%.5f\t%.5f\t%.2f\t%.4f\n",rownames(m),H
 options(warn=-1);
 m <- read.csv(commandArgs(TRUE)[1], header = TRUE, sep=' ');
 #161 TextureFileTextStream >> TextureData[NumClasses][1]; //SILT
-S <- m[,2];
+S <- if(m[,2]<=0)0.001 else m[,2];
 #162 TextureFileTextStream >> TextureData[NumClasses][2]; //CLAY
-C <- m[,3];
+C <- if(m[,2]<=0)0.0748 else m[,3];
 #163 TextureFileTextStream >> TextureData[NumClasses][3]; if(TextureData[NumClasses][3]<0) TextureData[NumClasses][3]=2.5; //ORGANIC MATTER
 O <- if(m[,4]<=0)2.5 else m[,4];
 #164 TextureFileTextStream >> TextureData[NumClasses][4]; if(TextureData[NumClasses][4]<0) TextureData[NumClasses][4]=1.3; //BULK DENSITY (g/cm3)
