@@ -1,8 +1,8 @@
 #!/bin/bash
 
 ################################################################################
-# Bash script to generate forcing file from VIC grids - V.21.03.20
-# modified Mar 20, 2021
+# Bash script to generate forcing file from VIC grids - V.21.03.10
+# modified Mar 10, 2021 - V.21.03.10
 ################################################################################
 # created Mar 16, 2018 by anssary@gmail.com under supervision of tusharsinha.iitd@gmail.com
 # the script requires a TINs & Grids mapping file that contains the TIN ID, the Grids ID, and the Grid's _Y_X
@@ -21,46 +21,26 @@
 # change the following variable names as desired
 # TINs and Grids mapping file
 
-
-
-usage="Generate forcing file for PIHM
-./$(basename "$0") TINs_Grids grids_folder text_folder y1 y2
-example:
-./$(basename "$0") ../somerville150_2.tins_grids somerville_grids txt 1950 1955"
-
-if (( $#!=5 )); then
-    >&2 echo "$usage";
-	exit 1;
-else
-	TINs_Grids=$1;
-	grids=$2;
-	txt=$3;
-	y1=$4;
-	y2=$5;
-fi
-
-
-
-# read -p "TINs_Grids: " TINs_Grids
-# TINs_Grids=${TINs_Grids:-TINs_Grids}
-# #TINs_Grids="$TINs_Grids.TG";
-# # grids folder name
-# read -p "grids: " grids
-# grids=${grids:-grids}
-# #grids="grids";
-# # generated temp text files folder name
-# read -p "txt: " txt
-# txt=${txt:-txt}
-# #txt="txt";
-# # From year
-# read -p "y1: 1950 (accept or enter): " y1
-# y1=${y1:-1950}
-# #y1="1950";	# 0 - minutes
-# # y1="1951";	# 525600 - minutes
-# # To year
-# read -p "y2: 1980 (accept or enter): " y2
-# y2=${y2:-1980}
-# #y2="1954";	# 2103840 - minutes
+read -p "TINs_Grids: " TINs_Grids
+TINs_Grids=${TINs_Grids:-TINs_Grids}
+#TINs_Grids="$TINs_Grids.TG";
+# grids folder name
+read -p "grids: " grids
+grids=${grids:-grids}
+#grids="grids";
+# generated temp text files folder name
+read -p "txt: " txt
+txt=${txt:-txt}
+#txt="txt";
+# From year
+read -p "y1: 1950 (accept or enter): " y1
+y1=${y1:-1950}
+#y1="1950";	# 0 - minutes
+# y1="1951";	# 525600 - minutes
+# To year
+read -p "y2: 1980 (accept or enter): " y2
+y2=${y2:-1980}
+#y2="1954";	# 2103840 - minutes
 # generated forcing file name
 forc="$TINs_Grids""_$y1""_$y2"".forc";
 ################################################################################
@@ -88,7 +68,7 @@ forc_flds_col=(${forc_flds_col//,/ });
 forc_flds="PP,TT,RH,WD,RN,VP";
 forc_flds=(${forc_flds//,/ });
 # forcing fields factors, respectively
-forc_flds_fct="/1000,*1,/100,*86400,*86400,*1000";
+forc_flds_fct="/1,*1,/100,*86400,*86400,*1000";
 forc_flds_fct=(${forc_flds_fct//,/ });
 ################################################################################
 # LAI and RL series from this reference (https://ldas.gsfc.nasa.gov/nldas/web/web.veg.monthly.table.xls)
@@ -155,7 +135,7 @@ for fld in "${!forc_flds[@]}"; do
 	# create the field txt empty file
 	echo -n>$txt/$f.txt;
 	# display the detailed message about the current file creation
-	echo -n "composing $txt/$f.txt from ((column $col)"$ff") in $src grids ";
+	echo -n "composing $txt/$f.txt from column ((\$$col)$ff) in $src grids ";
 	# loop through series
 	for (( ser=0;ser++<$series; ));do
 		# # display the name of the current file
