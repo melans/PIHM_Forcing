@@ -9,8 +9,9 @@ mukey="mukey.txt";
 echo $((`wc -l < $mukey`-1)) | tee $mukey.soil $mukey.geol >/dev/null 2>/dev/null;
 Rscript --vanilla <(awk '/\tRSCRIPT START SOIL/,/\tRSCRIPT END SOIL/' $0) "`realpath $mukey`" >> $mukey.soil;
 Rscript --vanilla <(awk '/\tRSCRIPT START GEOL/,/\tRSCRIPT END GEOL/' $0) "`realpath $mukey`" >> $mukey.geol;
+sed -i -e '/NULL[[:space:]]*$/d' $mukey.{soil,geol}
 # sed -i -e 's/NaN/nan/g' -e 's/Inf/inf/g' -e '/NULL[[:space:]]*$/d' $mukey.{soil,geol}
-sed -i -e 's/nan/0/ig' -e 's/inf/0/ig' -e '/NULL[[:space:]]*$/d' $mukey.{soil,geol}
+# sed -i -e 's/nan/0/ig' -e 's/inf/0/ig' -e '/NULL[[:space:]]*$/d' $mukey.{soil,geol}
 exit;
 
 ################################################################################
@@ -64,14 +65,14 @@ HydraulicParameter_7 <- 0.01;
 HydraulicParameter_8 <- 100*HydraulicParameter_1;
 
 # remove NaN values
-HydraulicParameter_1[is.nan(HydraulicParameter_1)] <- 0;
-HydraulicParameter_2[is.nan(HydraulicParameter_2)] <- 0;
-HydraulicParameter_3[is.nan(HydraulicParameter_3)] <- 0;
-HydraulicParameter_4[is.nan(HydraulicParameter_4)] <- 0;
-HydraulicParameter_5[is.nan(HydraulicParameter_5)] <- 0;
-HydraulicParameter_6[is.nan(HydraulicParameter_6)] <- 0;
-HydraulicParameter_7[is.nan(HydraulicParameter_7)] <- 0;
-HydraulicParameter_8[is.nan(HydraulicParameter_8)] <- 0;
+HydraulicParameter_1[is.nan(HydraulicParameter_1)] <- min(HydraulicParameter_1, na.rm = TRUE);
+HydraulicParameter_2[is.nan(HydraulicParameter_2)] <- min(HydraulicParameter_2, na.rm = TRUE);
+HydraulicParameter_3[is.nan(HydraulicParameter_3)] <- min(HydraulicParameter_3, na.rm = TRUE);
+HydraulicParameter_4[is.nan(HydraulicParameter_4)] <- min(HydraulicParameter_4, na.rm = TRUE);
+HydraulicParameter_5[is.nan(HydraulicParameter_5)] <- min(HydraulicParameter_5, na.rm = TRUE);
+HydraulicParameter_6[is.nan(HydraulicParameter_6)] <- min(HydraulicParameter_6, na.rm = TRUE);
+HydraulicParameter_7[is.nan(HydraulicParameter_7)] <- min(HydraulicParameter_7, na.rm = TRUE);
+HydraulicParameter_8[is.nan(HydraulicParameter_8)] <- min(HydraulicParameter_8, na.rm = TRUE);
 
 cat(sprintf("%s\t%.8f\t%.8f\t%.2f\t%.2f\t%.5f\t%.5f\t%.2f\t%.4f\n",rownames(m),HydraulicParameter_1,HydraulicParameter_2,HydraulicParameter_3,HydraulicParameter_4,HydraulicParameter_5,HydraulicParameter_6,HydraulicParameter_7,HydraulicParameter_8),sep='');
 #	RSCRIPT END SOIL
@@ -135,15 +136,15 @@ HydraulicParameter_8 <- 100000*HydraulicParameter_1;
 HydraulicParameter_9 <- 1.0;
 
 # remove NaN values
-HydraulicParameter_1[is.nan(HydraulicParameter_1)] <- 0;
-HydraulicParameter_2[is.nan(HydraulicParameter_2)] <- 0;
-HydraulicParameter_3[is.nan(HydraulicParameter_3)] <- 0;
-# HydraulicParameter_4[is.nan(HydraulicParameter_4)] <- 0;
-HydraulicParameter_5[is.nan(HydraulicParameter_5)] <- 0;
-HydraulicParameter_6[is.nan(HydraulicParameter_6)] <- 0;
-HydraulicParameter_7[is.nan(HydraulicParameter_7)] <- 0;
-HydraulicParameter_8[is.nan(HydraulicParameter_8)] <- 0;
-HydraulicParameter_9[is.nan(HydraulicParameter_9)] <- 0;
+HydraulicParameter_1[is.nan(HydraulicParameter_1)] <- min(HydraulicParameter_1, na.rm = TRUE);
+HydraulicParameter_2[is.nan(HydraulicParameter_2)] <- min(HydraulicParameter_2, na.rm = TRUE);
+HydraulicParameter_3[is.nan(HydraulicParameter_3)] <- min(HydraulicParameter_3, na.rm = TRUE);
+# HydraulicParameter_4[is.nan(HydraulicParameter_4)] <- min(HydraulicParameter_4, na.rm = TRUE);
+HydraulicParameter_5[is.nan(HydraulicParameter_5)] <- min(HydraulicParameter_5, na.rm = TRUE);
+HydraulicParameter_6[is.nan(HydraulicParameter_6)] <- min(HydraulicParameter_6, na.rm = TRUE);
+HydraulicParameter_7[is.nan(HydraulicParameter_7)] <- min(HydraulicParameter_7, na.rm = TRUE);
+HydraulicParameter_8[is.nan(HydraulicParameter_8)] <- min(HydraulicParameter_8, na.rm = TRUE);
+HydraulicParameter_9[is.nan(HydraulicParameter_9)] <- min(HydraulicParameter_9, na.rm = TRUE);
 
 
 cat(sprintf("%s\t%.8f\t%.8f\t%.8f\t%.2f\t%.5f\t%.5f\t%.2f\t%.4f\t%.2f\n",rownames(m),HydraulicParameter_1*10,HydraulicParameter_1,HydraulicParameter_2,HydraulicParameter_3,HydraulicParameter_5,HydraulicParameter_6,HydraulicParameter_7,HydraulicParameter_8,HydraulicParameter_9),sep='');
