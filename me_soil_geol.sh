@@ -20,13 +20,13 @@ exit;
 options(warn=-1);
 m <- read.csv(commandArgs(TRUE)[1], header = TRUE, sep=' ');
 #34 TextureFileTextStream >> TextureData[NumClasses][1]; //SILT
-S <- if(m[,2]<=0)0.001 else m[,2];
+S <- ifelse(m[,2]<=0,0.001,m[,2]);
 #35 TextureFileTextStream >> TextureData[NumClasses][2]; //CLAY
-C <- if(m[,2]<=0)0.0748 else m[,3];
+C <- ifelse(m[,2]<=0,0.0748,m[,3]);
 #36 TextureFileTextStream >> TextureData[NumClasses][3]; if(TextureData[NumClasses][3]<0) TextureData[NumClasses][3]=2.5; //ORGANIC MATTER
-O <- if(m[,4]<=0)2.5 else m[,4];
+O <- ifelse(m[,4]<=0,2.5,m[,4]);
 #37 TextureFileTextStream >> TextureData[NumClasses][4]; if(TextureData[NumClasses][4]<0) TextureData[NumClasses][4]=1.3; //BULK DENSITY (g/cm3)
-D <- if(m[,5]<=0)1.3 else m[,5];
+D <- ifelse(m[,5]<=0,1.3,m[,5]);
 #39 TextureData[NumClasses][5] = 1;
 TopSoil <- 1;
 
@@ -64,14 +64,14 @@ HydraulicParameter_7 <- 0.01;
 HydraulicParameter_8 <- 100*HydraulicParameter_1;
 
 # remove NaN and Inf values
-HydraulicParameter_1[is.na(HydraulicParameter_1) | is.infinite(HydraulicParameter_1) | HydraulicParameter_1<=0] <- min(HydraulicParameter_1, na.rm = TRUE);
-HydraulicParameter_2[is.na(HydraulicParameter_2) | is.infinite(HydraulicParameter_2) | HydraulicParameter_2<=0] <- min(HydraulicParameter_2, na.rm = TRUE);
-HydraulicParameter_3[is.na(HydraulicParameter_3) | is.infinite(HydraulicParameter_3) | HydraulicParameter_3<=0] <- min(HydraulicParameter_3, na.rm = TRUE);
-HydraulicParameter_4[is.na(HydraulicParameter_4) | is.infinite(HydraulicParameter_4) | HydraulicParameter_4<=0] <- min(HydraulicParameter_4, na.rm = TRUE);
-HydraulicParameter_5[is.na(HydraulicParameter_5) | is.infinite(HydraulicParameter_5) | HydraulicParameter_5<=0] <- min(HydraulicParameter_5, na.rm = TRUE);
-HydraulicParameter_6[is.na(HydraulicParameter_6) | is.infinite(HydraulicParameter_6) | HydraulicParameter_6<=0] <- min(HydraulicParameter_6, na.rm = TRUE);
-HydraulicParameter_7[is.na(HydraulicParameter_7) | is.infinite(HydraulicParameter_7) | HydraulicParameter_7<=0] <- min(HydraulicParameter_7, na.rm = TRUE);
-HydraulicParameter_8[is.na(HydraulicParameter_8) | is.infinite(HydraulicParameter_8) | HydraulicParameter_8<=0] <- min(HydraulicParameter_8, na.rm = TRUE);
+HydraulicParameter_1[is.na(HydraulicParameter_1) | is.infinite(HydraulicParameter_1)] <- min(HydraulicParameter_1, na.rm = TRUE);
+HydraulicParameter_2[is.na(HydraulicParameter_2) | is.infinite(HydraulicParameter_2)] <- min(HydraulicParameter_2, na.rm = TRUE);
+HydraulicParameter_3[is.na(HydraulicParameter_3) | is.infinite(HydraulicParameter_3)] <- min(HydraulicParameter_3, na.rm = TRUE);
+HydraulicParameter_4[is.na(HydraulicParameter_4) | is.infinite(HydraulicParameter_4)] <- min(HydraulicParameter_4, na.rm = TRUE);
+HydraulicParameter_5[is.na(HydraulicParameter_5) | is.infinite(HydraulicParameter_5)] <- min(HydraulicParameter_5, na.rm = TRUE);
+HydraulicParameter_6[is.na(HydraulicParameter_6) | is.infinite(HydraulicParameter_6)] <- min(HydraulicParameter_6, na.rm = TRUE);
+HydraulicParameter_7[is.na(HydraulicParameter_7) | is.infinite(HydraulicParameter_7)] <- min(HydraulicParameter_7, na.rm = TRUE);
+HydraulicParameter_8[is.na(HydraulicParameter_8) | is.infinite(HydraulicParameter_8)] <- min(HydraulicParameter_8, na.rm = TRUE);
 
 cat(sprintf("%s\t%.8f\t%.8f\t%.2f\t%.2f\t%.5f\t%.5f\t%.2f\t%.4f\n",rownames(m),HydraulicParameter_1,HydraulicParameter_2,HydraulicParameter_3,HydraulicParameter_4,HydraulicParameter_5,HydraulicParameter_6,HydraulicParameter_7,HydraulicParameter_8),sep='');
 #	RSCRIPT END SOIL
@@ -85,13 +85,13 @@ cat(sprintf("%s\t%.8f\t%.8f\t%.2f\t%.2f\t%.5f\t%.5f\t%.2f\t%.4f\n",rownames(m),H
 options(warn=-1);
 m <- read.csv(commandArgs(TRUE)[1], header = TRUE, sep=' ');
 #161 TextureFileTextStream >> TextureData[NumClasses][1]; //SILT
-S <- if(m[,2]<=0)0.001 else m[,2];
+S <- ifelse(m[,2]<=0,0.001,m[,2]);
 #162 TextureFileTextStream >> TextureData[NumClasses][2]; //CLAY
-C <- if(m[,2]<=0)0.0748 else m[,3];
+C <- ifelse(m[,2]<=0,0.0748,m[,3]);
 #163 TextureFileTextStream >> TextureData[NumClasses][3]; if(TextureData[NumClasses][3]<0) TextureData[NumClasses][3]=2.5; //ORGANIC MATTER
-O <- if(m[,4]<=0)2.5 else m[,4];
+O <- ifelse(m[,4]<=0,2.5,m[,4]);
 #164 TextureFileTextStream >> TextureData[NumClasses][4]; if(TextureData[NumClasses][4]<0) TextureData[NumClasses][4]=1.3; //BULK DENSITY (g/cm3)
-D <- if(m[,5]<=0)1.3 else m[,5];
+D <- ifelse(m[,5]<=0,1.3,m[,5]);
 #166 TextureData[NumClasses][5] = 0;
 TopSoil <- 0;
 
@@ -135,15 +135,15 @@ HydraulicParameter_8 <- 100000*HydraulicParameter_1;
 HydraulicParameter_9 <- 1.0;
 
 # remove NaN and Inf values
-HydraulicParameter_1[is.na(HydraulicParameter_1) | is.infinite(HydraulicParameter_1) | HydraulicParameter_1<=0] <- min(HydraulicParameter_1, na.rm = TRUE);
-HydraulicParameter_2[is.na(HydraulicParameter_2) | is.infinite(HydraulicParameter_2) | HydraulicParameter_2<=0] <- min(HydraulicParameter_2, na.rm = TRUE);
-HydraulicParameter_3[is.na(HydraulicParameter_3) | is.infinite(HydraulicParameter_3) | HydraulicParameter_3<=0] <- min(HydraulicParameter_3, na.rm = TRUE);
-# HydraulicParameter_4[is.na(HydraulicParameter_4) | is.infinite(HydraulicParameter_4) | HydraulicParameter_4<=0] <- min(HydraulicParameter_4, na.rm = TRUE);
-HydraulicParameter_5[is.na(HydraulicParameter_5) | is.infinite(HydraulicParameter_5) | HydraulicParameter_5<=0] <- min(HydraulicParameter_5, na.rm = TRUE);
-HydraulicParameter_6[is.na(HydraulicParameter_6) | is.infinite(HydraulicParameter_6) | HydraulicParameter_6<=0] <- min(HydraulicParameter_6, na.rm = TRUE);
-HydraulicParameter_7[is.na(HydraulicParameter_7) | is.infinite(HydraulicParameter_7) | HydraulicParameter_7<=0] <- min(HydraulicParameter_7, na.rm = TRUE);
-HydraulicParameter_8[is.na(HydraulicParameter_8) | is.infinite(HydraulicParameter_8) | HydraulicParameter_8<=0] <- min(HydraulicParameter_8, na.rm = TRUE);
-HydraulicParameter_9[is.na(HydraulicParameter_9) | is.infinite(HydraulicParameter_9) | HydraulicParameter_9<=0] <- min(HydraulicParameter_9, na.rm = TRUE);
+HydraulicParameter_1[is.na(HydraulicParameter_1) | is.infinite(HydraulicParameter_1)] <- min(HydraulicParameter_1, na.rm = TRUE);
+HydraulicParameter_2[is.na(HydraulicParameter_2) | is.infinite(HydraulicParameter_2)] <- min(HydraulicParameter_2, na.rm = TRUE);
+HydraulicParameter_3[is.na(HydraulicParameter_3) | is.infinite(HydraulicParameter_3)] <- min(HydraulicParameter_3, na.rm = TRUE);
+# HydraulicParameter_4[is.na(HydraulicParameter_4) | is.infinite(HydraulicParameter_4)] <- min(HydraulicParameter_4, na.rm = TRUE);
+HydraulicParameter_5[is.na(HydraulicParameter_5) | is.infinite(HydraulicParameter_5)] <- min(HydraulicParameter_5, na.rm = TRUE);
+HydraulicParameter_6[is.na(HydraulicParameter_6) | is.infinite(HydraulicParameter_6)] <- min(HydraulicParameter_6, na.rm = TRUE);
+HydraulicParameter_7[is.na(HydraulicParameter_7) | is.infinite(HydraulicParameter_7)] <- min(HydraulicParameter_7, na.rm = TRUE);
+HydraulicParameter_8[is.na(HydraulicParameter_8) | is.infinite(HydraulicParameter_8)] <- min(HydraulicParameter_8, na.rm = TRUE);
+HydraulicParameter_9[is.na(HydraulicParameter_9) | is.infinite(HydraulicParameter_9)] <- min(HydraulicParameter_9, na.rm = TRUE);
 
 
 cat(sprintf("%s\t%.8f\t%.8f\t%.8f\t%.2f\t%.5f\t%.5f\t%.2f\t%.4f\t%.2f\n",rownames(m),HydraulicParameter_1*10,HydraulicParameter_1,HydraulicParameter_2,HydraulicParameter_3,HydraulicParameter_5,HydraulicParameter_6,HydraulicParameter_7,HydraulicParameter_8,HydraulicParameter_9),sep='');
