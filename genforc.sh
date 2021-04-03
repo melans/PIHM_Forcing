@@ -100,7 +100,7 @@ LAI_RL="";
 # LAI Interception Storage Factor
 LAIf="0.0002";
 # Height of wind velocity observation
-WNf="10";
+WDf="10";
 # epsilon
 epsilon="0.00001";
 ################################################################################
@@ -151,7 +151,7 @@ for fld in "${!forc_flds[@]}"; do
 	# field factor
 	ff="${forc_flds_fct[$fld]}";
 	# xtra = add the Height of wind velocity observation
-	if [[ "$f" = "WN" ]];then xtra="	"$WNf;else xtra="";fi
+	if [[ "$f" = "WD" ]];then xtra="	"$WDf;else xtra="";fi
 	# create the field txt empty file
 	echo -n>$txt/$f.txt;
 	# display the detailed message about the current file creation
