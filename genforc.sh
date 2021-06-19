@@ -1,8 +1,9 @@
 #!/bin/bash
 
 ################################################################################
-# Bash script to generate forcing file from VIC grids - V.21.05.31
-# modified May 31, 2021
+# Bash script to generate forcing file from VIC grids - V.21.06.18
+# modified Jun 18, 2021
+# unlimited melting factor (MF) time series - all zeros (for Texas)
 ################################################################################
 # created Mar 16, 2018 by anssary@gmail.com under supervision of tusharsinha.iitd@gmail.com
 # the script requires a TINs & Grids mapping file that contains the TIN ID, the Grids ID, and the Grid's _Y_X
@@ -237,16 +238,20 @@ for rl in "${!LAI_RL[@]}"; do
 done;
 ################################################################################
 # 3rd: MF (melt factor)
-# find the MF series in this script
-# extract lines equal to no. of days in the determined time period ($y1 to $y2)
-# remove the hash symbol
-# replace the keyword days with the variable $days
-# insert the result in an MF txt empty file
-sed '1,/MF\tSTART/d;/END/,$d' $0|\
-head -n $((days+1))|\
-sed 's/# //g'|\
-sed "s/days/$days/g"\
->$txt/MF.txt;
+# create the MF txt empty file
+echo $daysSum|sed "s/ / 0\n/g;1s/^/MF 1 $days\n/;s/$/ 0/g">$txt/MF.txt;
+# ################################################################################
+# # 3rd: MF (melt factor)
+# # find the MF series in this script
+# # extract lines equal to no. of days in the determined time period ($y1 to $y2)
+# # remove the hash symbol
+# # replace the keyword days with the variable $days
+# # insert the result in an MF txt empty file
+# sed '1,/MF\tSTART/d;/END/,$d' $0|\
+# head -n $((days+1))|\
+# sed 's/# //g'|\
+# sed "s/days/$days/g"\
+# >$txt/MF.txt;
 ################################################################################
 # 4th: SS (sink/source)
 ################################################################################
@@ -325,9 +330,16 @@ echo "DONE";
 # 0.1947138,0.19413424,0.20831414,0.23348558,0.24574614,0.24605016,0.24538258,0.24630454,0.247455,0.23527388,0.20963734,0.19478494
 # RL	END
 ################################################################################
-# Melting Factor, 30 years time series
+# Melting Factor, zeros time series
 # MF	START
 # MF	1	days
+# 0
+# MF	END
+################################################################################
+
+################################################################################
+# Melting Factor, 30 years time series
+# MF30	START
 # 0.00	0.00120112
 # 31.00	0.00130802
 # 31.00	0.00131593
@@ -1048,5 +1060,5 @@ echo "DONE";
 # 10927.00	0.00137365
 # 10927.00	0.00136408
 # 10958.00	0.00120208
-# MF	END
+# MF30	END
 ################################################################################
