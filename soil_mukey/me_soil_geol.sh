@@ -5,10 +5,15 @@
 
 # usage: ./me_soil_geol.sh.txt
 
+# script name
+me="$BASH_SOURCE"
+# current folder
+ME=$(realpath .)
+
 mukey="mukey.txt";
 echo $((`wc -l < $mukey`-1)) | tee $mukey.soil $mukey.geol >/dev/null 2>/dev/null;
-Rscript --vanilla <(awk '/\tRSCRIPT START SOIL/,/\tRSCRIPT END SOIL/' $0) "`realpath $mukey`" >> $mukey.soil;
-Rscript --vanilla <(awk '/\tRSCRIPT START GEOL/,/\tRSCRIPT END GEOL/' $0) "`realpath $mukey`" >> $mukey.geol;
+Rscript --vanilla <(awk '/\tRSCRIPT START SOIL/,/\tRSCRIPT END SOIL/' $me) "`realpath $mukey`" >> $mukey.soil;
+Rscript --vanilla <(awk '/\tRSCRIPT START GEOL/,/\tRSCRIPT END GEOL/' $me) "`realpath $mukey`" >> $mukey.geol;
 # sed -i -e 's/NaN/nan/g' -e 's/Inf/inf/g' -e '/NULL[[:space:]]*$/d' $mukey.{soil,geol}
 # sed -i -e 's/nan/0/ig' -e 's/inf/0/ig' -e '/NULL[[:space:]]*$/d' $mukey.{soil,geol}
 exit;
@@ -18,7 +23,7 @@ exit;
 ################################################################################
 #	RSCRIPT START SOIL
 options(warn=-1);
-m <- read.csv(commandArgs(TRUE)[1], header = TRUE, sep=' ');
+m <- read.csv(commandArgs(TRUE)[1], header = TRUE, sep='\t');
 #34 TextureFileTextStream >> TextureData[NumClasses][1]; //SILT
 S <- if(m[,2]<=0)0.001 else m[,2];
 #35 TextureFileTextStream >> TextureData[NumClasses][2]; //CLAY
@@ -83,7 +88,7 @@ cat(sprintf("%s\t%.8f\t%.8f\t%.2f\t%.2f\t%.5f\t%.5f\t%.2f\t%.4f\n",rownames(m),H
 ################################################################################
 #	RSCRIPT START GEOL
 options(warn=-1);
-m <- read.csv(commandArgs(TRUE)[1], header = TRUE, sep=' ');
+m <- read.csv(commandArgs(TRUE)[1], header = TRUE, sep='\t');
 #161 TextureFileTextStream >> TextureData[NumClasses][1]; //SILT
 S <- if(m[,2]<=0)0.001 else m[,2];
 #162 TextureFileTextStream >> TextureData[NumClasses][2]; //CLAY
